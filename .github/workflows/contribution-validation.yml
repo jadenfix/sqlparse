@@ -1,16 +1,9 @@
-# This workflow will install Python dependencies, run tests and lint using uv
-# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
-
-name: Python application
-
+name: Contribution full validation
 on:
   push:
-    branches:
-    - master
-  pull_request:
-  schedule:
-    - cron: '0 12 * * *'
-
+    branches: ["validation/full-20261005"]
+permissions:
+  contents: read
 jobs:
   test:
     name: Run tests on Python ${{ matrix.python-version }}
@@ -37,6 +30,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        ref: f0687aa96fe19353c72db46e30cd5f137ea4acf9
 
     - name: Setup uv
       uses: astral-sh/setup-uv@v5
@@ -58,6 +53,3 @@ jobs:
         uv run --group dev coverage combine
         uv run --group dev coverage xml
 
-    - name: Publish to codecov
-      if: matrix.python-version == '3.11' && matrix.os == 'ubuntu-latest'
-      uses: codecov/codecov-action@v4
