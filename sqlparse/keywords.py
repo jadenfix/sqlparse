@@ -132,8 +132,7 @@ SQL_REGEX = [
     (r"`(``|[^`])*`", tokens.Name),
     (r"´(´´|[^´])*´", tokens.Name),
 
-    # Match unambiguous JSON operators before the single ? placeholder.
-    (r'(\?[|&]|@\?)', tokens.Operator),
+    (r'@\?', tokens.Operator),
     (r'\?', tokens.Name.Placeholder),
     (r'%(\(\w+\))?s', tokens.Name.Placeholder),
     (r'(?<!\w)[$:?]\w+', tokens.Name.Placeholder),
@@ -200,7 +199,7 @@ SQL_REGEX = [
     (r'\w[$#\w]*', PROCESS_AS_KEYWORD),
     (r'[;:()\[\],\.]', tokens.Punctuation),
     # JSON operators
-    (r'(\->>?|#>>?|@>|<@|\-|#\-)', tokens.Operator),
+    (r'(\->>?|#>>?|@>|<@|\?\|?|\?&|\-|#\-)', tokens.Operator),
     (r'[<>=~!]+', tokens.Operator.Comparison),
     (r'[+/@#%^&|^-]+', tokens.Operator),
 ]

@@ -363,10 +363,14 @@ class TestSpacesAroundOperators:
         assert self.formatter(
             sql) == 'select * from table where a && b or c || d'
 
-    @pytest.mark.parametrize('operator', ['?|', '?&', '@?'])
-    def test_json_question_operators(self, operator):
-        sql = f'select data{operator}? from table'
-        assert self.formatter(sql) == f'select data {operator} ? from table'
+    def test_json_path_operator(self):
+        sql = 'select data@?? from table'
+        assert self.formatter(sql) == 'select data @? ? from table'
+
+    @pytest.mark.parametrize('operator', ['||', '|', '&'])
+    def test_operator_after_placeholder(self, operator):
+        sql = f'select ?{operator}? from table'
+        assert self.formatter(sql) == f'select ? {operator} ? from table'
 
     def test_nested(self):
         sql = 'select *, case when a-b then c end from table'
